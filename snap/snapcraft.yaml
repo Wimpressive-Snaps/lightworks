@@ -14,9 +14,22 @@ confinement: strict
 layout:
   /usr/share/lightworks/strings.txt:
     bind-file: $SNAP/usr/share/lightworks/strings.txt
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
 
 parts:
+  alsa-mixin:
+    plugin: dump
+    source: https://github.com/diddlesnaps/snapcraft-alsa.git
+    source-subdir: snapcraft-assets
+    build-packages:
+      - libasound2-dev
+    stage-packages:
+      - libasound2
+      - libasound2-plugins
+
   lightworks:
+    after: [alsa-mixin]
     plugin: dump
     source: https://cdn.lwks.com/lightworks-14.5.0-amd64.deb
     override-build: |
@@ -27,6 +40,7 @@ parts:
       sed -i 's|GDK_BACKEND=x11 |GDK_BACKEND=x11 $SNAP|' ${SNAPCRAFT_PART_INSTALL}/usr/bin/lightworks
     stage-packages:
      - libc++1
+     - libglu1-mesa
      - libssl1.0.0
      - nvidia-cg-toolkit
      - ocl-icd-libopencl1
@@ -34,6 +48,7 @@ parts:
 apps:
   lightworks:
     command: usr/lib/lightworks/ntcardvt
+    command-chain: [snap/command-chain/alsa-launch]
     desktop: usr/share/applications/lightworks.desktop
     extensions: [gnome-3-28]
     plugs:
