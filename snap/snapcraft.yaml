@@ -38,7 +38,7 @@ parts:
     override-build: |
       snapcraftctl build
       # Patch the path for $allusers
-      sed -i 's|allusers=/usr/share/lightworks|allusers=$SNAP_USER_COMMON|' ${SNAPCRAFT_PART_INSTALL}/usr/bin/lightworks
+      sed -i 's|allusers=|allusers=$SNAP|' ${SNAPCRAFT_PART_INSTALL}/usr/bin/lightworks
       # Patch the path to ntcardvt
       sed -i 's|GDK_BACKEND=x11 |GDK_BACKEND=x11 $SNAP|' ${SNAPCRAFT_PART_INSTALL}/usr/bin/lightworks
     stage-packages:
