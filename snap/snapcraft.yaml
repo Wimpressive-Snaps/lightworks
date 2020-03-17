@@ -44,6 +44,7 @@ parts:
     stage-packages:
      - libc++1
      - libglu1-mesa
+     - libportaudiocpp0
      - libssl1.0.0
      - nvidia-cg-toolkit
      - ocl-icd-libopencl1
