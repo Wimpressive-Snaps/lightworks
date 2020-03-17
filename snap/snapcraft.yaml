@@ -15,8 +15,8 @@ architectures:
   - build-on: amd64
 
 layout:
-  /usr/share/lightworks/strings.txt:
-    bind-file: $SNAP/usr/share/lightworks/strings.txt
+  /usr/share/lightworks:
+    bind: $SNAP/usr/share/lightworks
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
     bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
 
