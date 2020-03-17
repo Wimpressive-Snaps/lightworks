@@ -1,0 +1,46 @@
+name: lightworks
+base: core18
+version: '14.5.0.0'
+summary: Hollywood-strength editing for everyone
+description: |
+  Lightworks is the fastest, most accessible and focused NLE in the industry,
+  because it is based on the  simple idea that the editor, not the computer
+  industry, knows what’s best. The latest release of Lightworks is based on
+  the cumulative knowledge from twenty years of top-flight editing.
+
+grade: stable
+confinement: strict
+
+layout:
+  /usr/share/lightworks/strings.txt:
+    bind-file: $SNAP/usr/share/lightworks/strings.txt
+
+parts:
+  lightworks:
+    plugin: dump
+    source: https://cdn.lwks.com/lightworks-14.5.0-amd64.deb
+    override-build: |
+      snapcraftctl build
+      # Patch the path for $allusers
+      sed -i 's|allusers=/usr/share/lightworks|allusers=$SNAP_USER_COMMON|' ${SNAPCRAFT_PART_INSTALL}/usr/bin/lightworks
+      # Patch the path to ntcardvt
+      sed -i 's|GDK_BACKEND=x11 |GDK_BACKEND=x11 $SNAP|' ${SNAPCRAFT_PART_INSTALL}/usr/bin/lightworks
+    stage-packages:
+     - libc++1
+     - libssl1.0.0
+     - nvidia-cg-toolkit
+     - ocl-icd-libopencl1
+
+apps:
+  lightworks:
+    command: usr/lib/lightworks/ntcardvt
+    desktop: usr/share/applications/lightworks.desktop
+    extensions: [gnome-3-28]
+    plugs:
+      - audio-playback
+      - audio-record
+      - block-devices
+      - home
+      - opengl
+      - network
+      - system-observe
