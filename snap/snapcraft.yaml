@@ -61,6 +61,6 @@ apps:
       - block-devices
       - hardware-observe
       - home
-      - opengl
       - network
-      - system-observe
+      - opengl
+      - removable-media
