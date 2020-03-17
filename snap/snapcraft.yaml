@@ -59,6 +59,7 @@ apps:
       - audio-playback
       - audio-record
       - block-devices
+      - hardware-observe
       - home
       - opengl
       - network
